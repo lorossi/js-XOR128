@@ -9,4 +9,4 @@ Download [here](https://github.com/lorossi/js-XOR128/releases/latest) the last v
 
 ## Credits
 
-This project is distributed under Attribution 4.0 International (CC BY 4.0) license.
+This project is distributed under MIT license.
