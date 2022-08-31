@@ -1,26 +1,30 @@
 /**
-* XOR128 js implementation
-* @version 1.0.0
-* @author Lorenzo Rossi - https://www.lorenzoros.si - https://github.com/lorossi/
-* @license Attribution 4.0 International (CC BY 4.0)
-*/
+ * XOR128 js implementation
+ * @version 1.0.0
+ * @author Lorenzo Rossi - https://www.lorenzoros.si - https://github.com/lorossi/
+ * @license MIT
+ */
 
 class XOR128 {
   /**
    * XOR128 pseudo-random number generator.
    * Based on the implementation by WizCorp https://github.com/Wizcorp/xor128/
-   * All parameters are optional, if nothing is passed a random value from 
+   * All parameters are optional, if nothing is passed a random value from
    *  js functions Math.random() will be used
-   * 
+   *
    * @param {Number} [x] first seed
    * @param {Number} [y] second seed
    * @param {Number} [z] third seed
    * @param {Number} [w] fourth seed
    * @returns {XOR128}
    */
-  constructor(x = Math.random() * 4294967296, y = Math.random() * 4294967296, z = Math.random() * 4294967296, w = Math.random() * 4294967296) {
-    if (x < 1 || y < 1 || z < 1 || w < 1)
-      throw new Error("Invalid seed");
+  constructor(x = null, y = null, z = null, w = null) {
+    if (x == null) x = Math.floor(Math.random() * 4294967296);
+    if (y == null) y = Math.floor(Math.random() * 4294967296);
+    if (z == null) z = Math.floor(Math.random() * 4294967296);
+    if (w == null) w = Math.floor(Math.random() * 4294967296);
+
+    if (x < 1 || y < 1 || z < 1 || w < 1) throw new Error("Invalid seed");
 
     this.x = x;
     this.y = y;
@@ -30,7 +34,7 @@ class XOR128 {
 
   /**
    * Private function, returns a random 32bit integer in range [0, 2^32-1)
-   * 
+   *
    * @private
    * @returns {Number}
    */
@@ -54,16 +58,16 @@ class XOR128 {
    * @param {Number} [b] maximum range value
    * @returns {Number} random number
    */
-  random(a, b) {
-    if (a == undefined && b == undefined) {
+  random(a = null, b = null) {
+    if (a == null && b == null) {
       a = 0;
       b = 1;
-    } else if (b == undefined) {
+    } else if (b == null) {
       b = a;
       a = 0;
     }
 
-    return this._next_integer() / 4294967296 * (b - a) + a;
+    return (this._next_integer() / 4294967296) * (b - a) + a;
   }
 
   /**
@@ -75,17 +79,16 @@ class XOR128 {
    * @param {Number} [b] maximum range value
    * @returns {Number} random number
    */
-  random_int(a, b) {
-    if (a == undefined && b == undefined) {
+  random_int(a = null, b = null) {
+    if (a == null && b == null) {
       a = 0;
       b = 2;
-    }
-    else if (b == undefined) {
+    } else if (b == null) {
       b = a;
       a = 0;
     }
 
-    return Math.floor(this._next_integer() / 4294967296 * (b - a)) + a;
+    return Math.floor((this._next_integer() / 4294967296) * (b - a)) + a;
   }
 
   /**
@@ -103,7 +106,7 @@ class XOR128 {
 
   /**
    * Returns a random item from the provided array
-   * 
+   *
    * @param {Array} arr an array
    * @returns {any} item from input array
    */
@@ -112,10 +115,10 @@ class XOR128 {
   }
 
   /**
-  * Shuffles the provided array without returning it (the original array gets shuffled)
-  *
-  * @param {Array} arr an array
-  */
+   * Shuffles the provided array without returning it (the original array gets shuffled)
+   *
+   * @param {Array} arr an array
+   */
   shuffle_array(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = this.random_int(0, arr.length);
@@ -125,11 +128,14 @@ class XOR128 {
 
   /**
    * Shuffles and returns a string
-   * 
-   * @param {String} string the string to be shuffled 
+   *
+   * @param {String} string the string to be shuffled
    * @returns {String}
    */
   shuffle_string(string) {
-    string.split("").sort((_, __) => this.random(-1, 1)).join("");
+    string
+      .split("")
+      .sort((_, __) => this.random(-1, 1))
+      .join("");
   }
 }
