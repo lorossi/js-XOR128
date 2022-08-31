@@ -12,41 +12,33 @@ class XOR128 {
    * All parameters are optional, if nothing is passed a random value from
    *  js functions Math.random() will be used
    *
-   * @param {Number} [x] first seed
-   * @param {Number} [y] second seed
-   * @param {Number} [z] third seed
-   * @param {Number} [w] fourth seed
+   * @param {number} [x] first seed
+   * @param {number} [y] second seed
+   * @param {number} [z] third seed
+   * @param {number} [w] fourth seed
    * @returns {XOR128}
    */
   constructor(x = null, y = null, z = null, w = null) {
-    if (x == null) x = Math.floor(Math.random() * 4294967296);
-    if (y == null) y = Math.floor(Math.random() * 4294967296);
-    if (z == null) z = Math.floor(Math.random() * 4294967296);
-    if (w == null) w = Math.floor(Math.random() * 4294967296);
+    if (x == null || x == undefined) x = Math.floor(Math.random() * 4294967296);
+    if (y == null || x == undefined) y = Math.floor(Math.random() * 4294967296);
+    if (z == null || x == undefined) z = Math.floor(Math.random() * 4294967296);
+    if (w == null || x == undefined) w = Math.floor(Math.random() * 4294967296);
 
-    if (x < 1 || y < 1 || z < 1 || w < 1) throw new Error("Invalid seed");
+    if (
+      typeof x !== "number" ||
+      typeof y !== "number" ||
+      typeof z !== "number" ||
+      typeof w !== "number"
+    )
+      throw new Error("XOR128: seed values must be numbers");
 
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.w = w;
-  }
+    if (x < 1 || y < 1 || z < 1 || w < 1)
+      throw new Error("XOR128: seed values must be greater than 0");
 
-  /**
-   * Private function, returns a random 32bit integer in range [0, 2^32-1)
-   *
-   * @private
-   * @returns {Number}
-   */
-  _next_integer() {
-    const t = this.x ^ ((this.x << 11) >>> 0);
-
-    this.x = this.y;
-    this.y = this.z;
-    this.z = this.w;
-    this.w = (this.w ^ (this.w >>> 19) ^ (t ^ (t >>> 8))) >>> 0;
-
-    return this.w;
+    this._x = x;
+    this._y = y;
+    this._z = z;
+    this._w = w;
   }
 
   /**
@@ -54,9 +46,9 @@ class XOR128 {
    * If only one parameter is passed, the random number will be generated in range [0, a)
    * If no parameters are passed, the random number will be generated in range [0, 1)
    *
-   * @param {Number} [a] if two parameters are passed, minimum range value; maximum range value otherwise
-   * @param {Number} [b] maximum range value
-   * @returns {Number} random number
+   * @param {number} [a] if two parameters are passed, minimum range value; maximum range value otherwise
+   * @param {number} [b] maximum range value
+   * @returns {number} random number
    */
   random(a = null, b = null) {
     if (a == null && b == null) {
@@ -67,7 +59,14 @@ class XOR128 {
       a = 0;
     }
 
-    return (this._next_integer() / 4294967296) * (b - a) + a;
+    const t = this._x ^ ((this._x << 11) >>> 0);
+
+    this._x = this._y;
+    this._y = this._z;
+    this._z = this._w;
+    this._w = (this._w ^ (this._w >>> 19) ^ (t ^ (t >>> 8))) >>> 0;
+
+    return (this._w / 4294967296) * (b - a) + a;
   }
 
   /**
@@ -75,9 +74,9 @@ class XOR128 {
    * If only one parameter is passed, the random number will be generated in range [0, a)
    * If no parameters are passed, the random number will be generated in range [0, 1]
    *
-   * @param {Number} [a] if two parameters are passed, minimum range value; maximum range value otherwise
-   * @param {Number} [b] maximum range value
-   * @returns {Number} random number
+   * @param {number} [a] if two parameters are passed, minimum range value; maximum range value otherwise
+   * @param {number} [b] maximum range value
+   * @returns {number} random number
    */
   random_int(a = null, b = null) {
     if (a == null && b == null) {
@@ -88,7 +87,7 @@ class XOR128 {
       a = 0;
     }
 
-    return Math.floor((this._next_integer() / 4294967296) * (b - a)) + a;
+    return Math.floor(this.random(a, b + 1));
   }
 
   /**
@@ -96,9 +95,9 @@ class XOR128 {
    * If only one parameter is passed, the random number will be generated in range (average - 0.5, average + 0.5)
    * If no parameters are passed, the random number will be generated in range [0, 1]
    *
-   * @param {Number} [a=0.5] average value of the random numbers
-   * @param {Number} [b=0.5] semi interval of the random numbers
-   * @returns {Number} random number
+   * @param {number} [a=0.5] average value of the random numbers
+   * @param {number} [b=0.5] semi interval of the random numbers
+   * @returns {number} random number
    */
   random_interval(average = 0.5, interval = 0.5) {
     return this.random(average - interval, average + interval);
@@ -120,10 +119,10 @@ class XOR128 {
    * @param {Array} arr an array
    */
   shuffle_array(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = this.random_int(0, arr.length);
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
+    arr
+      .map((s) => ({ sort: this.random(), value: s }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value);
   }
 
   /**
@@ -135,7 +134,9 @@ class XOR128 {
   shuffle_string(string) {
     string
       .split("")
-      .sort((_, __) => this.random(-1, 1))
+      .map((s) => ({ sort: this.random(), value: s }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value)
       .join("");
   }
 }
