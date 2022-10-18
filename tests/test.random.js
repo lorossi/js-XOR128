@@ -1,9 +1,25 @@
 mocha.setup("bdd");
 
 const NUM = 10000;
-let random = new XOR128();
+const random = new XOR128();
 
 describe("test", () => {
+  it("test instantiation", () => {
+    chai.expect(() => new XOR128(1, 2, 3, 4, 5)).to.throw();
+    chai.expect(() => new XOR128(1, 2, 3, "A")).to.throw();
+    chai.expect(() => new XOR128("A")).to.throw();
+    chai.expect(() => new XOR128(-1)).to.throw();
+    chai.expect(() => new XOR128([1, 2, 3, 4])).to.not.throw();
+    chai.expect(() => new XOR128([1, 2])).to.not.throw();
+  });
+
+  it("test method arguments", () => {
+    chai.expect(() => random.random(2, 0)).to.throw();
+    chai.expect(() => random.random_int(2, 0)).to.throw();
+    chai.expect(() => random.random_from_array("A")).to.throw();
+    chai.expect(() => random.shuffle(1)).to.throw();
+  });
+
   it("returned value is a number", () => {
     for (let i = 0; i < NUM; i++) {
       const r = random.random();
@@ -38,10 +54,33 @@ describe("test", () => {
     }
   });
 
+  it("random_boolean should be true or false", () => {
+    for (let i = 0; i < NUM; i++) {
+      chai.expect(random.random_bool()).to.be.oneOf([true, false]);
+    }
+  });
+
+  it("random_string should generate a valid random string", () => {
+    for (let i = 0; i < NUM; i++) {
+      const s = random.random_string();
+      chai.expect(s).to.be.a("string");
+      chai.expect(s.length).to.equal(10);
+      chai.expect(s).to.match(/^[A-Za-z0-9]+$/);
+    }
+  });
+
   it("random_from_array should return a random item from the array", () => {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     for (let i = 0; i < NUM; i++) {
       chai.expect(arr).to.include(random.random_from_array(arr));
+      chai.expect(arr).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    }
+  });
+
+  it("random_from_string should return a random char from the string", () => {
+    const str = "1234567890";
+    for (let i = 0; i < NUM; i++) {
+      chai.expect(str).to.include(random.random_from_string(str));
     }
   });
 
@@ -80,6 +119,30 @@ describe("test", () => {
     }
   });
 
+  it("test shuffle repeatability with arrays", () => {
+    const seed = [1234, 5678, 9012, 3456];
+    for (let i = 0; i < NUM; i++) {
+      const x = new XOR128(...seed);
+      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      const r1 = x.shuffle(arr);
+      const y = new XOR128(...seed);
+      const r2 = y.shuffle(arr);
+      chai.expect(r1).to.deep.equal(r2);
+    }
+  });
+
+  it("test shuffle repeatability with strings", () => {
+    const seed = [1234, 5678, 9012, 3456];
+    for (let i = 0; i < NUM; i++) {
+      const x = new XOR128(...seed);
+      const str = "1234567890";
+      const r1 = x.shuffle(str);
+      const y = new XOR128(...seed);
+      const r2 = y.shuffle(str);
+      chai.expect(r1).to.equal(r2);
+    }
+  });
+
   it("test repeatability with random seed", () => {
     const seed = new Date().getTime();
     const x = new XOR128(seed);
@@ -90,20 +153,5 @@ describe("test", () => {
       const r2 = y.random();
       chai.expect(r1).to.equal(r2);
     }
-  });
-
-  it("test instantiation", () => {
-    chai.expect(() => new XOR128(1, 2, 3, 4, 5)).to.throw();
-    chai.expect(() => new XOR128(1, 2, 3, "A")).to.throw();
-    chai.expect(() => new XOR128("A")).to.throw();
-    chai.expect(() => new XOR128(-1)).to.throw();
-    chai.expect(() => new XOR128([1, 2, 3, 4])).to.not.throw();
-    chai.expect(() => new XOR128([1, 2])).to.not.throw();
-  });
-
-  it("test method arguments", () => {
-    chai.expect(() => random.random(2, 0)).to.throw();
-    chai.expect(() => random.random_int(2, 0)).to.throw();
-    chai.expect(() => random.random_from_array("A")).to.throw();
   });
 });
