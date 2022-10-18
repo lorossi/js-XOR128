@@ -9,11 +9,15 @@ Download [here](https://github.com/lorossi/js-XOR128/releases/latest) the last v
 
 ## Known issues
 
-- the range in the `random_int` method is not correct
-- the function `random_from_array` does not work
-- the methods have not been tested
+- ~~the range in the `random_int` method is not correct~~ **fixed**
+- ~~the function `random_from_array` does not work~~ **fixed**
+- ~~the methods have not been tested~~ **fixed**
 - some methods should be renamed
 
 ## Credits
 
 This project is distributed under MIT license.
+
+The testing framework used is [Mocha](https://mochajs.org/).
+
+The documentation is generated with [JSDoc](http://usejsdoc.org/).

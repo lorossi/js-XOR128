@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    XOR128 pseudo-random number generator.Based on the implementation by WizCorp https://github.com/Wizcorp/xor128/All parameters are optional, if nothing is passed a random value from  js functions Math.random() will be used
+    XOR128 pseudo-random number generator.Based on the implementation by WizCorp https://github.com/Wizcorp/xor128/All parameters are optional, if nothing is passed a random value from js functions Math.random() will be used
 </div>
 
 
@@ -81,6 +81,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -97,7 +99,10 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
+|
+
+<span class="param-type">Array</span>
 
 
             
@@ -116,8 +121,14 @@
             
 
             
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
 
-            <td class="description last">first seed</td>
+            <td class="description last">first seed or array of seeds. \ If an array is passed, the first 4 elements will be used as seeds</td>
         </tr>
 
     
@@ -130,7 +141,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -148,6 +159,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">second seed</td>
@@ -163,7 +180,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -181,6 +198,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">third seed</td>
@@ -196,7 +219,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -214,6 +237,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">fourth seed</td>
@@ -232,7 +261,7 @@
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -262,7 +291,7 @@
 
     
     <dt class="tag-license">License:</dt>
-    <dd class="tag-license"><ul class="dummy"><li>Attribution 4.0 International (CC BY 4.0)</li></ul></dd>
+    <dd class="tag-license"><ul class="dummy"><li>MIT</li></ul></dd>
     
 
     
@@ -344,7 +373,7 @@
     
 
     
-    <h4 class="name" id="random"><span class="type-signature"></span>random<span class="signature">(a<span class="signature-attributes">opt</span>, b<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="random"><span class="type-signature"></span>random<span class="signature">(a<span class="signature-attributes">opt</span>, b<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
@@ -380,6 +409,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -396,7 +427,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -414,6 +445,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">if two parameters are passed, minimum range value; maximum range value otherwise</td>
@@ -429,7 +466,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -447,6 +484,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">maximum range value</td>
@@ -490,7 +533,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line57">line 57</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -530,7 +573,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -649,7 +692,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line110">line 110</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -707,7 +750,7 @@
     
 
     
-    <h4 class="name" id="random_int"><span class="type-signature"></span>random_int<span class="signature">(a<span class="signature-attributes">opt</span>, b<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="random_int"><span class="type-signature"></span>random_int<span class="signature">(a<span class="signature-attributes">opt</span>, b<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
@@ -743,6 +786,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -759,7 +804,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -777,6 +822,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">if two parameters are passed, minimum range value; maximum range value otherwise</td>
@@ -792,7 +843,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -810,6 +861,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
             
 
             <td class="description last">maximum range value</td>
@@ -853,7 +910,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line78">line 78</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line119">line 119</a>
     </li></ul></dd>
     
 
@@ -893,7 +950,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -911,7 +968,7 @@
     
 
     
-    <h4 class="name" id="random_interval"><span class="type-signature"></span>random_interval<span class="signature">(a<span class="signature-attributes">opt</span>, b<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="random_interval"><span class="type-signature"></span>random_interval<span class="signature">(a<span class="signature-attributes">opt</span>, b<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
@@ -965,7 +1022,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1004,7 +1061,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1071,7 +1128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line100">line 100</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -1111,7 +1168,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -1230,7 +1287,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line119">line 119</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -1367,7 +1424,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line132">line 132</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -1437,7 +1494,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Jul 19 2021 23:26:55 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Oct 18 2022 16:41:23 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
