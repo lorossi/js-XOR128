@@ -129,6 +129,33 @@ class XOR128 {
   }
 
   /**
+   * Returns a random boolean
+   *
+   * @returns {Boolean} random boolean
+   */
+  random_bool() {
+    return this.random() > 0.5;
+  }
+
+  /**
+   * Returns a random string
+   *
+   * @param {number} [length=10] length of the string
+   * @param {string} [chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"] characters to use
+   */
+  random_string(
+    length = 10,
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  ) {
+    let str = "";
+
+    for (let i = 0; i < length; i++)
+      str += chars[this.random_int(0, chars.length)];
+
+    return str;
+  }
+
+  /**
    * Returns a random integer in range (average - interval, average + interval)
    * If only one parameter is passed, the random number will be generated in range (average - 0.5, average + 0.5)
    * If no parameters are passed, the random number will be generated in range [0, 1]
@@ -155,12 +182,36 @@ class XOR128 {
   }
 
   /**
-   * Shuffles the provided array without returning it (the original array gets shuffled)
+   * Returns a random char from the provided string
+   *
+   * @param {string} str a string
+   * @returns {string} char from input string
+   */
+  random_from_string(str) {
+    if (typeof str !== "string")
+      throw new Error("XOR128: parameter must be a string");
+
+    return str.charAt(this.random_int(0, str.length));
+  }
+
+  /**
+   * Returns a random item from the provided array or a random char from the provided string
+   *
+   * @returns {any} item from input array or char from input string
+   */
+  pick(x) {
+    if (x instanceof Array) return this.random_from_array(x);
+    else if (typeof x === "string") return this.random_from_string(x);
+    else throw new Error("XOR128: parameter must be an array or a string");
+  }
+
+  /**
+   * Shuffles the provided array (the original array does not get shuffled)
    *
    * @param {Array} arr an array
    */
   shuffle_array(arr) {
-    return arr
+    return [...arr]
       .map((s) => ({ sort: this.random(), value: s }))
       .sort((a, b) => a.sort - b.sort)
       .map((a) => a.value);
@@ -179,5 +230,18 @@ class XOR128 {
       .sort((a, b) => a.sort - b.sort)
       .map((a) => a.value)
       .join("");
+  }
+
+  /**
+   * Shuffles and returns an array or a string.
+   *
+   * @param {Array|String} x an array or a string
+   * @returns {any} shuffled array or string
+   */
+  shuffle(x) {
+    if (x instanceof Array) return this.shuffle_array(x);
+    if (typeof x === "string") return this.shuffle_string(x);
+
+    throw new Error("XOR128: parameter must be an array or a string");
   }
 }
