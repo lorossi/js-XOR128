@@ -158,6 +158,22 @@ describe("test", () => {
     const arr_check = arr_values.every((v) => v > 0);
     chai.expect(arr_check).to.be.true;
     chai.expect(arr_check).to.be.a("boolean");
+
+    const arr_obj_values = Array(MAX)
+      .fill(0)
+      .map((_, i) => i);
+    const arr_obj = Array(MAX)
+      .fill(0)
+      .map((_, i) => ({ id: i, value: i ^ 0xc0ffee }));
+
+    for (let i = 0; i < NUM; i++) {
+      const r = random.pick(arr_obj);
+      const i = arr_obj.indexOf(r);
+      arr_obj_values[i]++;
+    }
+    const arr_obj_check = arr_obj_values.every((v) => v > 0);
+    chai.expect(arr_obj_check).to.be.true;
+    chai.expect(arr_obj_check).to.be.a("boolean");
   });
 
   it("test repeatability", () => {
