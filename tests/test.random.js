@@ -1,6 +1,7 @@
 mocha.setup("bdd");
 
 const NUM = 10000;
+const MAX = 10;
 const random = new XOR128();
 
 describe("test", () => {
@@ -45,6 +46,30 @@ describe("test", () => {
       chai.expect(random.random_int()).to.be.within(0, 1);
       chai.expect(random.random_int(10)).to.be.within(0, 10);
     }
+  });
+
+  it("check random and random_int distribution", () => {
+    const float_values = Array(MAX)
+      .fill(0)
+      .map((_, i) => i);
+    for (let i = 0; i < NUM; i++) {
+      const r = Math.floor(random.random(MAX));
+      float_values[r]++;
+    }
+    const float_check = float_values.every((v) => v > 0);
+    chai.expect(float_check).to.be.true;
+    chai.expect(float_check).to.be.a("boolean");
+
+    const int_values = Array(MAX)
+      .fill(0)
+      .map((_, i) => i);
+    for (let i = 0; i < NUM; i++) {
+      const r = random.random_int(MAX);
+      int_values[r]++;
+    }
+    const int_check = int_values.every((v) => v > 0);
+    chai.expect(int_check).to.be.true;
+    chai.expect(int_check).to.be.a("boolean");
   });
 
   it("random_range should be in the correct range", () => {
@@ -105,6 +130,34 @@ describe("test", () => {
         chai.expect(str).to.include(shuffled[j]);
       }
     }
+  });
+
+  it("check pick distribution", () => {
+    const str_values = Array(MAX)
+      .fill(0)
+      .map((_, i) => i);
+    const str = [...Array(MAX).keys()].join("");
+    for (let i = 0; i < NUM; i++) {
+      const r = random.pick(str);
+      const i = str.indexOf(r);
+      str_values[i]++;
+    }
+    const str_check = str_values.every((v) => v > 0);
+    chai.expect(str_check).to.be.true;
+    chai.expect(str_check).to.be.a("boolean");
+
+    const arr_values = Array(MAX)
+      .fill(0)
+      .map((_, i) => i);
+    const arr = [...Array(MAX).keys()];
+    for (let i = 0; i < NUM; i++) {
+      const r = random.pick(arr);
+      const i = arr.indexOf(r);
+      arr_values[i]++;
+    }
+    const arr_check = arr_values.every((v) => v > 0);
+    chai.expect(arr_check).to.be.true;
+    chai.expect(arr_check).to.be.a("boolean");
   });
 
   it("test repeatability", () => {
