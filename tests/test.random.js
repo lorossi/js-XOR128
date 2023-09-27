@@ -2,8 +2,27 @@ import { XOR128 } from "../xor128.js";
 
 mocha.setup("bdd");
 
-const NUM = 10000;
+const NUM = 1000;
 const MAX = 10;
+const SEEDS = [
+  893670696795, 493791200841, 978769234601, 289001128298, 239377148894,
+  870529175047, 463594739943, 250307698143, 290283995731, 766975367336,
+];
+
+// snippet used to generate seeds
+// const SEEDS = new Array(10)
+//   .fill(0)
+//   .map(() =>
+//     new Array(12)
+//       .fill(0)
+//       .map((_, i) =>
+//         Math.floor(
+//           i == 0 ? Math.random() * 9 + 1 : Math.floor(Math.random() * 10)
+//         )
+//       )
+//       .join("")
+//   )
+//   .map((s) => parseInt(s));
 
 describe("instance test", () => {
   it("test instantiation", () => {
@@ -28,182 +47,206 @@ describe("instance test", () => {
   });
 
   it("returned value is a number", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    for (let i = 0; i < NUM; i++) {
-      const r = random.random();
-      chai.expect(r).to.be.a("number");
-      chai.expect(r).to.not.equal(NaN);
+      for (let i = 0; i < NUM; i++) {
+        const r = random.random();
+        chai.expect(r).to.be.a("number");
+        chai.expect(r).to.not.equal(NaN);
 
-      const i = random.random_int();
-      chai.expect(i).to.be.a("number");
-      chai.expect(i).to.not.equal(NaN);
-      chai.expect(i).to.equal(Math.floor(i));
-    }
+        const i = random.random_int();
+        chai.expect(i).to.be.a("number");
+        chai.expect(i).to.not.equal(NaN);
+        chai.expect(i).to.equal(Math.floor(i));
+      }
+    });
   });
 
   it("random should be in the correct range", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    for (let i = 0; i < NUM; i++) {
-      chai.expect(random.random()).to.be.within(0, 1);
-      chai.expect(random.random(10)).to.be.within(0, 10);
-    }
+      for (let i = 0; i < NUM; i++) {
+        chai.expect(random.random()).to.be.within(0, 1);
+        chai.expect(random.random(10)).to.be.within(0, 10);
+      }
+    });
   });
 
   it("random_int should be in the correct range", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    for (let i = 0; i < NUM; i++) {
-      chai.expect(random.random_int()).to.be.within(0, 1);
-      chai.expect(random.random_int(10)).to.be.within(0, 10);
-    }
+      for (let i = 0; i < NUM; i++) {
+        chai.expect(random.random_int()).to.be.within(0, 1);
+        chai.expect(random.random_int(10)).to.be.within(0, 10);
+      }
+    });
   });
 
   it("check random and random_int distribution", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    const float_values = Array(MAX)
-      .fill(0)
-      .map((_, i) => i);
-    for (let i = 0; i < NUM; i++) {
-      const r = Math.floor(random.random(MAX));
-      float_values[r]++;
-    }
-    const float_check = float_values.every((v) => v > 0);
-    chai.expect(float_check).to.be.true;
-    chai.expect(float_check).to.be.a("boolean");
+      const float_values = Array(MAX)
+        .fill(0)
+        .map((_, i) => i);
+      for (let i = 0; i < NUM; i++) {
+        const r = Math.floor(random.random(MAX));
+        float_values[r]++;
+      }
+      const float_check = float_values.every((v) => v > 0);
+      chai.expect(float_check).to.be.true;
+      chai.expect(float_check).to.be.a("boolean");
 
-    const int_values = Array(MAX)
-      .fill(0)
-      .map((_, i) => i);
-    for (let i = 0; i < NUM; i++) {
-      const r = random.random_int(MAX);
-      int_values[r]++;
-    }
-    const int_check = int_values.every((v) => v > 0);
-    chai.expect(int_check).to.be.true;
-    chai.expect(int_check).to.be.a("boolean");
+      const int_values = Array(MAX)
+        .fill(0)
+        .map((_, i) => i);
+      for (let i = 0; i < NUM; i++) {
+        const r = random.random_int(MAX);
+        int_values[r]++;
+      }
+      const int_check = int_values.every((v) => v > 0);
+      chai.expect(int_check).to.be.true;
+      chai.expect(int_check).to.be.a("boolean");
+    });
   });
 
   it("random_range should be in the correct range", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    for (let i = 0; i < NUM; i++) {
-      chai.expect(random.random_interval()).to.be.within(0, 1);
-      chai.expect(random.random_interval(10, 10)).to.be.within(0, 20);
-    }
+      for (let i = 0; i < NUM; i++) {
+        chai.expect(random.random_interval()).to.be.within(0, 1);
+        chai.expect(random.random_interval(10, 10)).to.be.within(0, 20);
+      }
+    });
   });
 
   it("random_boolean should be true or false", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    for (let i = 0; i < NUM; i++) {
-      chai.expect(random.random_bool()).to.be.oneOf([true, false]);
-    }
+      for (let i = 0; i < NUM; i++) {
+        chai.expect(random.random_bool()).to.be.oneOf([true, false]);
+      }
+    });
   });
 
   it("random_string should generate a valid random string", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    for (let i = 0; i < NUM; i++) {
-      const s = random.random_string();
-      chai.expect(s).to.be.a("string");
-      chai.expect(s.length).to.equal(10);
-      chai.expect(s).to.match(/^[A-Za-z0-9]+$/);
-    }
+      for (let i = 0; i < NUM; i++) {
+        const s = random.random_string();
+        chai.expect(s).to.be.a("string");
+        chai.expect(s.length).to.equal(10);
+        chai.expect(s).to.match(/^[A-Za-z0-9]+$/);
+      }
+    });
   });
 
   it("random_from_array should return a random item from the array", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    for (let i = 0; i < NUM; i++) {
-      chai.expect(arr).to.include(random.random_from_array(arr));
-      chai.expect(arr).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    }
+      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      for (let i = 0; i < NUM; i++) {
+        chai.expect(arr).to.include(random.random_from_array(arr));
+        chai.expect(arr).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      }
+    });
   });
 
   it("random_from_string should return a random char from the string", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    const str = "1234567890";
-    for (let i = 0; i < NUM; i++) {
-      chai.expect(str).to.include(random.random_from_string(str));
-    }
+      const str = "1234567890";
+      for (let i = 0; i < NUM; i++) {
+        chai.expect(str).to.include(random.random_from_string(str));
+      }
+    });
   });
 
   it("shuffle_array should return a shuffled array", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    for (let i = 0; i < NUM; i++) {
-      const shuffled = random.shuffle_array(arr);
-      chai.expect(shuffled).to.not.deep.equal(arr);
-      chai.expect(shuffled).to.have.lengthOf(arr.length);
-      for (let j = 0; j < arr.length; j++) {
-        chai.expect(arr).to.include(shuffled[j]);
+      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      for (let i = 0; i < NUM; i++) {
+        const shuffled = random.shuffle_array(arr);
+        chai.expect(shuffled).to.not.deep.equal(arr);
+        chai.expect(shuffled).to.have.lengthOf(arr.length);
+        for (let j = 0; j < arr.length; j++) {
+          chai.expect(arr).to.include(shuffled[j]);
+        }
       }
-    }
+    });
   });
 
   it("shuffle_string should return a shuffled string", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    const str = "1234567890";
-    for (let i = 0; i < NUM; i++) {
-      const shuffled = random.shuffle_string(str);
-      chai.expect(shuffled).to.have.lengthOf(str.length);
-      for (let j = 0; j < str.length; j++) {
-        chai.expect(str).to.include(shuffled[j]);
+      const str = "1234567890";
+      for (let i = 0; i < NUM; i++) {
+        const shuffled = random.shuffle_string(str);
+        chai.expect(shuffled).to.have.lengthOf(str.length);
+        for (let j = 0; j < str.length; j++) {
+          chai.expect(str).to.include(shuffled[j]);
+        }
       }
-    }
+    });
   });
 
   it("check pick distribution", () => {
-    const random = new XOR128();
+    SEEDS.forEach((seed) => {
+      const random = new XOR128(seed);
 
-    const str_values = Array(MAX)
-      .fill(0)
-      .map((_, i) => i);
-    const str = [...Array(MAX).keys()].join("");
-    for (let i = 0; i < NUM; i++) {
-      const r = random.pick(str);
-      const i = str.indexOf(r);
-      str_values[i]++;
-    }
-    const str_check = str_values.every((v) => v > 0);
-    chai.expect(str_check).to.be.true;
-    chai.expect(str_check).to.be.a("boolean");
+      const str_values = Array(MAX)
+        .fill(0)
+        .map((_, i) => i);
+      const str = [...Array(MAX).keys()].join("");
+      for (let i = 0; i < NUM; i++) {
+        const r = random.pick(str);
+        const i = str.indexOf(r);
+        str_values[i]++;
+      }
+      const str_check = str_values.every((v) => v > 0);
+      chai.expect(str_check).to.be.true;
+      chai.expect(str_check).to.be.a("boolean");
 
-    const arr_values = Array(MAX)
-      .fill(0)
-      .map((_, i) => i);
-    const arr = [...Array(MAX).keys()];
-    for (let i = 0; i < NUM; i++) {
-      const r = random.pick(arr);
-      const i = arr.indexOf(r);
-      arr_values[i]++;
-    }
-    const arr_check = arr_values.every((v) => v > 0);
-    chai.expect(arr_check).to.be.true;
-    chai.expect(arr_check).to.be.a("boolean");
+      const arr_values = Array(MAX)
+        .fill(0)
+        .map((_, i) => i);
+      const arr = [...Array(MAX).keys()];
+      for (let i = 0; i < NUM; i++) {
+        const r = random.pick(arr);
+        const i = arr.indexOf(r);
+        arr_values[i]++;
+      }
+      const arr_check = arr_values.every((v) => v > 0);
+      chai.expect(arr_check).to.be.true;
+      chai.expect(arr_check).to.be.a("boolean");
 
-    const arr_obj_values = Array(MAX)
-      .fill(0)
-      .map((_, i) => i);
-    const arr_obj = Array(MAX)
-      .fill(0)
-      .map((_, i) => ({ id: i, value: i ^ 0xc0ffee }));
+      const arr_obj_values = Array(MAX)
+        .fill(0)
+        .map((_, i) => i);
+      const arr_obj = Array(MAX)
+        .fill(0)
+        .map((_, i) => ({ id: i, value: i ^ 0xc0ffee }));
 
-    for (let i = 0; i < NUM; i++) {
-      const r = random.pick(arr_obj);
-      const i = arr_obj.indexOf(r);
-      arr_obj_values[i]++;
-    }
-    const arr_obj_check = arr_obj_values.every((v) => v > 0);
-    chai.expect(arr_obj_check).to.be.true;
-    chai.expect(arr_obj_check).to.be.a("boolean");
+      for (let i = 0; i < NUM; i++) {
+        const r = random.pick(arr_obj);
+        const i = arr_obj.indexOf(r);
+        arr_obj_values[i]++;
+      }
+      const arr_obj_check = arr_obj_values.every((v) => v > 0);
+      chai.expect(arr_obj_check).to.be.true;
+      chai.expect(arr_obj_check).to.be.a("boolean");
+    });
   });
 
   it("test repeatability", () => {
