@@ -5,14 +5,17 @@ mocha.setup("bdd");
 const NUM = 10000;
 const MAX = 10;
 
-describe("test", () => {
+describe("instance test", () => {
   it("test instantiation", () => {
-    chai.expect(() => new XOR128(1, 2, 3, 4, 5)).to.throw();
-    chai.expect(() => new XOR128(1, 2, 3, "A")).to.throw();
     chai.expect(() => new XOR128("A")).to.throw();
     chai.expect(() => new XOR128(-1)).to.throw();
+    chai.expect(() => new XOR128(0)).to.throw();
+    chai.expect(() => new XOR128([1, 2])).to.throw();
+    chai.expect(() => new XOR128([1, 2, 3, 4, 5])).to.throw();
+
     chai.expect(() => new XOR128([1, 2, 3, 4])).to.not.throw();
-    chai.expect(() => new XOR128([1, 2])).to.not.throw();
+    chai.expect(() => new XOR128()).to.not.throw();
+    chai.expect(() => new XOR128(42)).to.not.throw();
   });
 
   it("test method arguments", () => {
