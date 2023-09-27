@@ -66,7 +66,7 @@ class XOR128State {
   /**
    * Return true if the internal state is all zero, false otherwise.
    *
-   * @returns {Boolean} true if the internal state is all zero, false otherwise
+   * @returns {boolean} true if the internal state is all zero, false otherwise
    */
   isAllZero() {
     return this._state.every((x) => x === 0);
@@ -184,12 +184,11 @@ class XOR128 {
       // create a SplitMix64State from the seed
       this._split_state = new SplitMix64State(x);
 
-      let xx, yy, zz, ww;
-      [xx, yy] = this._split_state.mix();
-      [zz, ww] = this._split_state.mix();
+      const s1 = this._split_state.mix();
+      const s2 = this._split_state.mix();
 
       // create a XOR128State from the seeds
-      this._xor_state = new XOR128State(xx, yy, zz, ww);
+      this._xor_state = new XOR128State(s1[0], s1[1], s2[0], s2[1]);
 
       // check if the seed is all
       // this might happen but it is not recommended
@@ -210,16 +209,16 @@ class XOR128 {
    * If only one parameter is passed, the random number will be generated in range [0, a)
    * If no parameters are passed, the random number will be generated in range [0, 1)
    *
-   * @param {number} [a] if two parameters are passed, minimum range value; maximum range value otherwise
-   * @param {number} [b] maximum range value
+   * @param {number|undefined} [a] if two parameters are passed, minimum range value; maximum range value otherwise
+   * @param {number|undefined} [b] maximum range value
    * @returns {number} random number
    */
-  random(a = null, b = null) {
-    if (a === null &amp;&amp; b === null) {
+  random(a = undefined, b = undefined) {
+    if (a === undefined &amp;&amp; b === undefined) {
       // if no parameters are passed, generate a random number in range [0, 1)
       a = 0;
       b = 1;
-    } else if (b === null) {
+    } else if (b === undefined) {
       // if only one parameter is passed, generate a random number in range [0, a)
       b = a;
       a = 0;
@@ -257,16 +256,16 @@ class XOR128 {
    * If only one parameter is passed, the random number will be generated in range [0, a)
    * If no parameters are passed, the random number will be generated in range [0, 1]
    *
-   * @param {number} [a] if two parameters are passed, minimum range value; maximum range value otherwise
-   * @param {number} [b] maximum range value
+   * @param {number|undefined} [a] if two parameters are passed, minimum range value; maximum range value otherwise
+   * @param {number|undefined} [b] maximum range value
    * @returns {number} random number
    */
-  random_int(a = null, b = null) {
-    if (a === null &amp;&amp; b === null) {
+  random_int(a = undefined, b = undefined) {
+    if (a === undefined &amp;&amp; b === undefined) {
       // if no parameters are passed, generate a random number in range [0, 1]
       a = 0;
       b = 2;
-    } else if (b === null) {
+    } else if (b === undefined) {
       // if only one parameter is passed, generate a random number in range [0, a)
       b = a;
       a = 0;
@@ -278,7 +277,7 @@ class XOR128 {
   /**
    * Returns a random boolean
    *
-   * @returns {Boolean} random boolean
+   * @returns {boolean} random boolean
    */
   random_bool() {
     return this.random() > 0.5;
@@ -294,12 +293,10 @@ class XOR128 {
     length = 10,
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
   ) {
-    let str = "";
-
-    for (let i = 0; i &lt; length; i++)
-      str += chars[this.random_int(0, chars.length)];
-
-    return str;
+    return new Array(length)
+      .fill(0)
+      .map(() => chars.charAt(this.random_int(0, chars.length)))
+      .join("");
   }
 
   /**
@@ -307,8 +304,8 @@ class XOR128 {
    * If only one parameter is passed, the random number will be generated in range (average - 0.5, average + 0.5)
    * If no parameters are passed, the random number will be generated in range [0, 1]
    *
-   * @param {number} [a=0.5] average value of the random numbers
-   * @param {number} [b=0.5] semi interval of the random numbers
+   * @param {number} [average=0.5] average value of the random numbers
+   * @param {number} [interval=0.5] semi interval of the random numbers
    * @returns {number} random number
    */
   random_interval(average = 0.5, interval = 0.5) {
@@ -319,7 +316,7 @@ class XOR128 {
    * Returns a random item from the provided array
    *
    * @param {Array} arr an array
-   * @returns {any} item from input array
+   * @returns {*} item from input array
    */
   random_from_array(arr) {
     if (!(arr instanceof Array))
@@ -344,7 +341,7 @@ class XOR128 {
   /**
    * Returns a random item from the provided array or a random char from the provided string
    *
-   * @returns {any} item from input array or char from input string
+   * @returns {*} item from input array or char from input string
    */
   pick(x) {
     if (x instanceof Array) return this.random_from_array(x);
@@ -358,6 +355,8 @@ class XOR128 {
    * @param {Array} arr an array
    */
   shuffle_array(arr) {
+    if (!arr) return null;
+
     return [...arr]
       .map((s) => ({ sort: this.random(), value: s }))
       .sort((a, b) => a.sort - b.sort)
@@ -367,10 +366,12 @@ class XOR128 {
   /**
    * Shuffles and returns a string
    *
-   * @param {String} string the string to be shuffled
-   * @returns {String}
+   * @param {string} string the string to be shuffled
+   * @returns {string}
    */
   shuffle_string(string) {
+    if (!string) return "";
+
     return string
       .split("")
       .map((s) => ({ sort: this.random(), value: s }))
@@ -382,8 +383,8 @@ class XOR128 {
   /**
    * Shuffles and returns an array or a string.
    *
-   * @param {Array|String} x an array or a string
-   * @returns {any} shuffled array or string
+   * @param {Array|string} x an array or a string
+   * @returns {*} shuffled array or string
    */
   shuffle(x) {
     if (x instanceof Array) return this.shuffle_array(x);
@@ -410,7 +411,7 @@ export { XOR128 };
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 27 2023 16:06:22 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 27 2023 16:38:42 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
