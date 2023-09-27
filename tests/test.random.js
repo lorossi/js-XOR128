@@ -1,8 +1,9 @@
+import { XOR128 } from "../xor128.js";
+
 mocha.setup("bdd");
 
 const NUM = 10000;
 const MAX = 10;
-const random = new XOR128();
 
 describe("test", () => {
   it("test instantiation", () => {
@@ -15,6 +16,8 @@ describe("test", () => {
   });
 
   it("test method arguments", () => {
+    const random = new XOR128();
+
     chai.expect(() => random.random(2, 0)).to.throw();
     chai.expect(() => random.random_int(2, 0)).to.throw();
     chai.expect(() => random.random_from_array("A")).to.throw();
@@ -22,6 +25,8 @@ describe("test", () => {
   });
 
   it("returned value is a number", () => {
+    const random = new XOR128();
+
     for (let i = 0; i < NUM; i++) {
       const r = random.random();
       chai.expect(r).to.be.a("number");
@@ -35,6 +40,8 @@ describe("test", () => {
   });
 
   it("random should be in the correct range", () => {
+    const random = new XOR128();
+
     for (let i = 0; i < NUM; i++) {
       chai.expect(random.random()).to.be.within(0, 1);
       chai.expect(random.random(10)).to.be.within(0, 10);
@@ -42,6 +49,8 @@ describe("test", () => {
   });
 
   it("random_int should be in the correct range", () => {
+    const random = new XOR128();
+
     for (let i = 0; i < NUM; i++) {
       chai.expect(random.random_int()).to.be.within(0, 1);
       chai.expect(random.random_int(10)).to.be.within(0, 10);
@@ -49,6 +58,8 @@ describe("test", () => {
   });
 
   it("check random and random_int distribution", () => {
+    const random = new XOR128();
+
     const float_values = Array(MAX)
       .fill(0)
       .map((_, i) => i);
@@ -73,6 +84,8 @@ describe("test", () => {
   });
 
   it("random_range should be in the correct range", () => {
+    const random = new XOR128();
+
     for (let i = 0; i < NUM; i++) {
       chai.expect(random.random_interval()).to.be.within(0, 1);
       chai.expect(random.random_interval(10, 10)).to.be.within(0, 20);
@@ -80,12 +93,16 @@ describe("test", () => {
   });
 
   it("random_boolean should be true or false", () => {
+    const random = new XOR128();
+
     for (let i = 0; i < NUM; i++) {
       chai.expect(random.random_bool()).to.be.oneOf([true, false]);
     }
   });
 
   it("random_string should generate a valid random string", () => {
+    const random = new XOR128();
+
     for (let i = 0; i < NUM; i++) {
       const s = random.random_string();
       chai.expect(s).to.be.a("string");
@@ -95,6 +112,8 @@ describe("test", () => {
   });
 
   it("random_from_array should return a random item from the array", () => {
+    const random = new XOR128();
+
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     for (let i = 0; i < NUM; i++) {
       chai.expect(arr).to.include(random.random_from_array(arr));
@@ -103,6 +122,8 @@ describe("test", () => {
   });
 
   it("random_from_string should return a random char from the string", () => {
+    const random = new XOR128();
+
     const str = "1234567890";
     for (let i = 0; i < NUM; i++) {
       chai.expect(str).to.include(random.random_from_string(str));
@@ -110,6 +131,8 @@ describe("test", () => {
   });
 
   it("shuffle_array should return a shuffled array", () => {
+    const random = new XOR128();
+
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     for (let i = 0; i < NUM; i++) {
       const shuffled = random.shuffle_array(arr);
@@ -122,6 +145,8 @@ describe("test", () => {
   });
 
   it("shuffle_string should return a shuffled string", () => {
+    const random = new XOR128();
+
     const str = "1234567890";
     for (let i = 0; i < NUM; i++) {
       const shuffled = random.shuffle_string(str);
@@ -133,6 +158,8 @@ describe("test", () => {
   });
 
   it("check pick distribution", () => {
+    const random = new XOR128();
+
     const str_values = Array(MAX)
       .fill(0)
       .map((_, i) => i);
