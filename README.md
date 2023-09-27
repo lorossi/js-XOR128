@@ -7,12 +7,28 @@ Check the docs here: [lorossi.github.io/js-XOR128/](https://lorossi.github.io/js
 
 Download [here](https://github.com/lorossi/js-XOR128/releases/latest) the last version.
 
-## Known issues
+## Tests
 
-- ~~the range in the `random_int` method is not correct~~ **fixed**
-- ~~the function `random_from_array` does not work~~ **fixed**
-- ~~the methods have not been tested~~ **fixed**
-- some methods should be renamed
+To run the tests:
+
+- clone the repository
+- host the `test` folder with a web server
+- open the `index.html` file in a browser
+- tests will be run automatically via [Mocha](https://mochajs.org/)
+
+There are two categories of tests:
+
+- **unit tests**, to test the single methods and the instantiation of the class
+- **randomness tests**, to test the randomness of the generated numbers
+
+The randomness test performed are:
+
+- Chi-square test
+- Kolmogorov-Smirnov test
+- Bernoulli test
+
+All with a confidence threshold of 0.05.
+This does not ensure that the generator is truly random, but it is a good indicator.
 
 ## Credits
 
