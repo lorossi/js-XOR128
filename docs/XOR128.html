@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>XOR128<span class="signature">(x<span class="signature-attributes">opt</span>, y<span class="signature-attributes">opt</span>, z<span class="signature-attributes">opt</span>, w<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="XOR128.html">XOR128</a>}</span></h2>
-        
-            <div class="class-description">XOR128 js implementation</div>
+        <h2><span class="attribs"><span class="type-signature"></span></span>XOR128<span class="signature">(x<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="XOR128.html">XOR128</a>}</span></h2>
         
     
 </header>
@@ -41,11 +39,9 @@
         
 
     
-    <h2>Constructor</h2>
-    
 
     
-    <h4 class="name" id="XOR128"><span class="type-signature"></span>new XOR128<span class="signature">(x<span class="signature-attributes">opt</span>, y<span class="signature-attributes">opt</span>, z<span class="signature-attributes">opt</span>, w<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="XOR128.html">XOR128</a>}</span></h4>
+    <h4 class="name" id="XOR128"><span class="type-signature"></span>new XOR128<span class="signature">(x<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="XOR128.html">XOR128</a>}</span></h4>
     
 
     
@@ -53,7 +49,7 @@
 
 
 <div class="description">
-    XOR128 pseudo-random number generator.Based on the implementation by WizCorp https://github.com/Wizcorp/xor128/All parameters are optional, if nothing is passed a random value from js functions Math.random() will be used
+    XOR128 pseudo-random number generator.Formerly based on the implementation by WizCorp https://github.com/Wizcorp/xor128/,now based on the xor128 as described on Wikipedia https://en.wikipedia.org/wiki/XorshiftAll parameters are optional, if nothing is passed a random value from js functions Math.random() will be used
 </div>
 
 
@@ -128,124 +124,7 @@
                 </td>
             
 
-            <td class="description last">first seed or array of seeds. \ If an array is passed, the first 4 elements will be used as seeds</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">second seed</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>z</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">third seed</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>w</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last">fourth seed</td>
+            <td class="description last">seed or array of seeds. \ If an array is passed, the first 4 elements will be used as seeds</td>
         </tr>
 
     
@@ -260,9 +139,6 @@
 <dl class="details">
 
     
-    <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.1.0</li></ul></dd>
-    
 
     
 
@@ -279,19 +155,9 @@
     
 
     
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Lorenzo Rossi - https://www.lorenzoros.si - https://github.com/lorossi/</li>
-        </ul>
-    </dd>
-    
 
     
 
-    
-    <dt class="tag-license">License:</dt>
-    <dd class="tag-license"><ul class="dummy"><li>MIT</li></ul></dd>
     
 
     
@@ -299,7 +165,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line8">line 8</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -322,6 +188,35 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        if x is not a number or an array of 4 numbers
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
 
 
 <h5>Returns:</h5>
@@ -425,7 +320,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line202">line 202</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line321">line 321</a>
     </li></ul></dd>
     
 
@@ -643,7 +538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line85">line 85</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -753,7 +648,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line136">line 136</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -912,7 +807,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line177">line 177</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line296">line 296</a>
     </li></ul></dd>
     
 
@@ -1071,7 +966,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line190">line 190</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -1289,7 +1184,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line119">line 119</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line236">line 236</a>
     </li></ul></dd>
     
 
@@ -1507,7 +1402,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line167">line 167</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line286">line 286</a>
     </li></ul></dd>
     
 
@@ -1725,7 +1620,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line146">line 146</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -1865,7 +1760,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line241">line 241</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -2024,7 +1919,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line213">line 213</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line332">line 332</a>
     </li></ul></dd>
     
 
@@ -2161,7 +2056,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line226">line 226</a>
+        <a href="xor128.js.html">xor128.js</a>, <a href="xor128.js.html#line345">line 345</a>
     </li></ul></dd>
     
 
@@ -2231,7 +2126,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Oct 18 2022 16:56:07 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 27 2023 16:06:22 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
