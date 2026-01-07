@@ -1,4 +1,4 @@
-import { XOR128 } from "../xor128.js";
+import { XOR128 } from "../js/xor128.js";
 import * as chai from "chai";
 
 const CHI_SAMPLE_SIZE = 100000;

@@ -1,4 +1,4 @@
-import { XOR128 } from "../xor128.js";
+import { XOR128 } from "../js/xor128.js";
 import * as chai from "chai";
 
 const NUM = 1000;
@@ -238,10 +238,11 @@ describe("instance test", function () {
   it("test repeatability", () => {
     const seed = [1234, 5678, 9012, 3456];
     const x = new XOR128(...seed);
-    const r1 = x.random();
+    const y = new XOR128(...seed);
 
     for (let i = 0; i < NUM; i++) {
-      const y = new XOR128(...seed);
+      const r1 = x.random();
+
       const r2 = y.random();
       chai.expect(r1).to.equal(r2);
     }
@@ -249,11 +250,12 @@ describe("instance test", function () {
 
   it("test shuffle repeatability with arrays", () => {
     const seed = [1234, 5678, 9012, 3456];
+    const x = new XOR128(...seed);
+    const y = new XOR128(...seed);
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     for (let i = 0; i < NUM; i++) {
-      const x = new XOR128(...seed);
-      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       const r1 = x.shuffle(arr);
-      const y = new XOR128(...seed);
       const r2 = y.shuffle(arr);
       chai.expect(r1).to.deep.equal(r2);
     }
@@ -261,11 +263,12 @@ describe("instance test", function () {
 
   it("test shuffle repeatability with strings", () => {
     const seed = [1234, 5678, 9012, 3456];
+    const x = new XOR128(...seed);
+    const y = new XOR128(...seed);
+
     for (let i = 0; i < NUM; i++) {
-      const x = new XOR128(...seed);
       const str = "1234567890";
       const r1 = x.shuffle(str);
-      const y = new XOR128(...seed);
       const r2 = y.shuffle(str);
       chai.expect(r1).to.equal(r2);
     }
@@ -274,10 +277,10 @@ describe("instance test", function () {
   it("test repeatability with random seed", () => {
     const seed = new Date().getTime();
     const x = new XOR128(seed);
-    const r1 = x.random();
+    const y = new XOR128(seed);
 
     for (let i = 0; i < NUM; i++) {
-      const y = new XOR128(seed);
+      const r1 = x.random();
       const r2 = y.random();
       chai.expect(r1).to.equal(r2);
     }
