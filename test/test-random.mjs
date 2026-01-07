@@ -1,6 +1,5 @@
 import { XOR128 } from "../xor128.js";
-
-mocha.setup("bdd");
+import * as chai from "chai";
 
 const NUM = 1000;
 const MAX = 10;
@@ -8,21 +7,6 @@ const SEEDS = [
   893670696795, 493791200841, 978769234601, 289001128298, 239377148894,
   870529175047, 463594739943, 250307698143, 290283995731, 766975367336,
 ];
-
-// snippet used to generate seeds
-// const SEEDS = new Array(10)
-//   .fill(0)
-//   .map(() =>
-//     new Array(12)
-//       .fill(0)
-//       .map((_, i) =>
-//         Math.floor(
-//           i == 0 ? Math.random() * 9 + 1 : Math.floor(Math.random() * 10)
-//         )
-//       )
-//       .join("")
-//   )
-//   .map((s) => parseInt(s));
 
 describe("instance test", () => {
   it("test instantiation", () => {

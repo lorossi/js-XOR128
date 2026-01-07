@@ -1,6 +1,5 @@
 import { XOR128 } from "../xor128.js";
-
-mocha.setup("bdd");
+import * as chai from "chai";
 
 const CHI_SAMPLE_SIZE = 100000;
 const KS_SAMPLE_SIZE = 10000;
