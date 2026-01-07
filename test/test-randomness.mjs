@@ -1,6 +1,5 @@
-import { XOR128 } from "../xor128.js";
-
-mocha.setup("bdd");
+import { XOR128 } from "../js/xor128.js";
+import * as chai from "chai";
 
 const CHI_SAMPLE_SIZE = 100000;
 const KS_SAMPLE_SIZE = 10000;
@@ -18,7 +17,9 @@ const SEEDS = [
   809270690621, 703769822062, 32993062215, 420385970018, 389199561140,
 ];
 
-describe("randomness test", () => {
+describe("randomness test", function () {
+  this.timeout(10000);
+
   it("chi square test", () => {
     SEEDS.forEach((seed) => {
       const BINS_NUM = 10;

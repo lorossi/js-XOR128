@@ -84,29 +84,6 @@ class SplitMix64State {
   }
 
   /**
-   * Get the current internal state.
-   *
-   * @returns {number} current internal state
-   */
-  get seed() {
-    return this._seed;
-  }
-
-  /**
-   * Set the internal state.
-   *
-   * @param {number} seed
-   * @returns {void}
-   * @throws {Error} if seed is not a number
-   */
-  set seed(seed) {
-    if (typeof seed !== "number")
-      throw new Error("SplitMix64State: seed must be a number");
-
-    this._seed = seed;
-  }
-
-  /**
    * Mix the internal state.
    * @returns {Array} array of two numbers
    */

@@ -1,6 +1,5 @@
-import { XOR128 } from "../xor128.js";
-
-mocha.setup("bdd");
+import { XOR128 } from "../js/xor128.js";
+import * as chai from "chai";
 
 const NUM = 1000;
 const MAX = 10;
@@ -9,32 +8,23 @@ const SEEDS = [
   870529175047, 463594739943, 250307698143, 290283995731, 766975367336,
 ];
 
-// snippet used to generate seeds
-// const SEEDS = new Array(10)
-//   .fill(0)
-//   .map(() =>
-//     new Array(12)
-//       .fill(0)
-//       .map((_, i) =>
-//         Math.floor(
-//           i == 0 ? Math.random() * 9 + 1 : Math.floor(Math.random() * 10)
-//         )
-//       )
-//       .join("")
-//   )
-//   .map((s) => parseInt(s));
+describe("instance test", function () {
+  this.timeout(10000);
 
-describe("instance test", () => {
   it("test instantiation", () => {
-    chai.expect(() => new XOR128("A")).to.throw();
-    chai.expect(() => new XOR128(-1)).to.throw();
-    chai.expect(() => new XOR128(0)).to.throw();
-    chai.expect(() => new XOR128([1, 2])).to.throw();
-    chai.expect(() => new XOR128([1, 2, 3, 4, 5])).to.throw();
-
     chai.expect(() => new XOR128([1, 2, 3, 4])).to.not.throw();
     chai.expect(() => new XOR128()).to.not.throw();
     chai.expect(() => new XOR128(42)).to.not.throw();
+  });
+
+  it("test invalid seeds", () => {
+    chai.expect(() => new XOR128([0, 0, 0, 0])).to.throw();
+    chai.expect(() => new XOR128(false)).to.throw();
+    chai.expect(() => new XOR128("A")).to.throw();
+    chai.expect(() => new XOR128(-1)).to.throw();
+    chai.expect(() => new XOR128(0)).to.throw();
+    chai.expect(() => new XOR128([1, 2, 3])).to.throw();
+    chai.expect(() => new XOR128([1, 2, 3, 4, 5])).to.throw();
   });
 
   it("test method arguments", () => {
@@ -252,10 +242,11 @@ describe("instance test", () => {
   it("test repeatability", () => {
     const seed = [1234, 5678, 9012, 3456];
     const x = new XOR128(...seed);
-    const r1 = x.random();
+    const y = new XOR128(...seed);
 
     for (let i = 0; i < NUM; i++) {
-      const y = new XOR128(...seed);
+      const r1 = x.random();
+
       const r2 = y.random();
       chai.expect(r1).to.equal(r2);
     }
@@ -263,11 +254,12 @@ describe("instance test", () => {
 
   it("test shuffle repeatability with arrays", () => {
     const seed = [1234, 5678, 9012, 3456];
+    const x = new XOR128(...seed);
+    const y = new XOR128(...seed);
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     for (let i = 0; i < NUM; i++) {
-      const x = new XOR128(...seed);
-      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       const r1 = x.shuffle(arr);
-      const y = new XOR128(...seed);
       const r2 = y.shuffle(arr);
       chai.expect(r1).to.deep.equal(r2);
     }
@@ -275,11 +267,12 @@ describe("instance test", () => {
 
   it("test shuffle repeatability with strings", () => {
     const seed = [1234, 5678, 9012, 3456];
+    const x = new XOR128(...seed);
+    const y = new XOR128(...seed);
+
     for (let i = 0; i < NUM; i++) {
-      const x = new XOR128(...seed);
       const str = "1234567890";
       const r1 = x.shuffle(str);
-      const y = new XOR128(...seed);
       const r2 = y.shuffle(str);
       chai.expect(r1).to.equal(r2);
     }
@@ -288,10 +281,10 @@ describe("instance test", () => {
   it("test repeatability with random seed", () => {
     const seed = new Date().getTime();
     const x = new XOR128(seed);
-    const r1 = x.random();
+    const y = new XOR128(seed);
 
     for (let i = 0; i < NUM; i++) {
-      const y = new XOR128(seed);
+      const r1 = x.random();
       const r2 = y.random();
       chai.expect(r1).to.equal(r2);
     }
