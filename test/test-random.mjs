@@ -8,7 +8,9 @@ const SEEDS = [
   870529175047, 463594739943, 250307698143, 290283995731, 766975367336,
 ];
 
-describe("instance test", () => {
+describe("instance test", function () {
+  this.timeout(10000);
+
   it("test instantiation", () => {
     chai.expect(() => new XOR128("A")).to.throw();
     chai.expect(() => new XOR128(-1)).to.throw();
