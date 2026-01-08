@@ -9,9 +9,9 @@
   },
   "scripts": {
     "test": "c8 mocha 'test/**/*.mjs'",
-    "docs": "jsdoc js/*.js -d docs/",
+    "docs": "jsdoc js/*.js -d docs/ && node scripts/make-coverage-badge.mjs",
     "bundle": "rollup -c",
-    "build": "mkdir -p dist && npm run bundle "
+    "build": "mkdir -p dist && npm run bundle"
   },
   "repository": {
     "type": "git",

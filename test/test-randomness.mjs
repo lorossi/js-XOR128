@@ -17,7 +17,7 @@ const SEEDS = [
   809270690621, 703769822062, 32993062215, 420385970018, 389199561140,
 ];
 
-describe("randomness test", function () {
+describe("Should pass the xi square test", function () {
   this.timeout(10000);
 
   it("chi square test", () => {
@@ -43,7 +43,7 @@ describe("randomness test", function () {
     });
   });
 
-  it("Kolmogorov-Smirnov test", () => {
+  it("Should pass the Kolmogorov-Smirnov test", () => {
     SEEDS.forEach((seed) => {
       const random = new XOR128(seed);
       const values = new Array(KS_SAMPLE_SIZE)
@@ -71,7 +71,7 @@ describe("randomness test", function () {
     });
   });
 
-  it("check random_bool distribution", () => {
+  it("Should pass the random_bool distribution test", () => {
     SEEDS.forEach((seed) => {
       const random = new XOR128(seed);
       let true_count = 0;
@@ -89,7 +89,7 @@ describe("randomness test", function () {
     });
   });
 
-  it("binomial test", () => {
+  it("Should pass the binomial test", () => {
     const fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));
     const binomial = (n, k) => fact(n) / (fact(k) * fact(n - k));
 

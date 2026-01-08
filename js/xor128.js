@@ -1,109 +1,5 @@
-/**
- * XOR128 js implementation
- * @version 1.1.0
- * @author Lorenzo Rossi - https://www.lorenzoros.si - https://github.com/lorossi/
- * @license MIT
- */
-
-class XOR128State {
-  /**
-   * Internal state of the XOR128 pseudo-random number generator.
-   * @private
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
-   * @param {number} w
-   * @throws {Error} if any of x, y, z or w is not a number
-   */
-  constructor(x, y, z, w) {
-    if (
-      typeof x !== "number" ||
-      typeof y !== "number" ||
-      typeof z !== "number" ||
-      typeof w !== "number"
-    )
-      throw new Error("XOR128: seed must be a number");
-    this._state = [x, y, z, w];
-  }
-
-  /**
-   * Get the current internal state as an array of 4 numbers.
-   *
-   * @returns {Array} current internal state
-   */
-  get state() {
-    return this._state;
-  }
-
-  /**
-   * Return true if the internal state is all zero, false otherwise.
-   *
-   * @returns {boolean} true if the internal state is all zero, false otherwise
-   */
-  isAllZero() {
-    return this._state.every((x) => x === 0);
-  }
-
-  /**
-   * Rotate the internal state.
-   *
-   * @returns {void}
-   */
-  rotateState() {
-    const [x, y, z, w] = this._state;
-    this._state = [y, z, w, x];
-  }
-
-  /**
-   * Set the first word of the internal state.
-   *
-   * @returns {void}
-   * @throws {Error} if x is not a number
-   */
-  setFirstWord(x) {
-    if (typeof x !== "number")
-      throw new Error("XOR128: first word must be a number");
-
-    this._state[0] = x;
-  }
-}
-
-class SplitMix64State {
-  /**
-   * Internal state of the SplitMix64 pseudo-random number generator.
-   * @private
-   * @param {number} seed
-   * @returns {void}
-   * @throws {Error} if seed is not a number
-   */
-  constructor(seed) {
-    if (typeof seed !== "number")
-      throw new Error("SplitMix64State: seed must be a number");
-
-    this._seed = seed;
-  }
-
-  /**
-   * Mix the internal state.
-   * @returns {Array} array of two numbers
-   */
-  mix() {
-    let big_seed = BigInt(this._seed);
-    big_seed += 0x9e3779b97f4a7c15n;
-
-    this._seed = Number(big_seed & BigInt(0xffffffffffffffffn));
-
-    let z = big_seed;
-    z = (z ^ (z >> BigInt(30n))) * BigInt(0xbf58476d1ce4e5b9n);
-    z = (z ^ (z >> BigInt(30n))) * BigInt(0x94d049bb133111ebn);
-    z = z ^ (z >> BigInt(31n));
-
-    const z_lower = Number(z & 0xffffffffn);
-    const z_upper = Number(z >> 32n);
-    return [z_lower, z_upper];
-  }
-}
-
+import { XOR128State } from "./xor128-state.js";
+import { SplitMix64State } from "./splitmix64-state.js";
 class XOR128 {
   /**
    * XOR128 pseudo-random number generator.
@@ -138,19 +34,15 @@ class XOR128 {
 
       // create a XOR128State from the seeds
       this._xor_state = new XOR128State(s1[0], s1[1], s2[0], s2[1]);
-
-      // check if the seed is all
-      // this might happen but it is not recommended
-      if (this._xor_state.isAllZero())
-        console.warn(
-          "XOR128: seed is all zero, this is not recommended. ",
-          "If no seed was passed, try instantiating the class again"
-        );
     } else throw new Error("XOR128: parameter must be a number or an array");
 
     // check if the seed is all zero
-    if (this._xor_state.isAllZero())
-      throw new Error("XOR128: seed must not be all zero");
+    if (this._xor_state.isAllZero()) {
+      console.warn(
+        "XOR128: seed is all zero. This is not recommended. Consider using a different seed. " +
+          "If no seed was provided, consider re-instantiating the generator."
+      );
+    }
   }
 
   /**
@@ -267,9 +159,11 @@ class XOR128 {
    * @param {Array} arr an array
    * @returns {*} item from input array
    */
-  random_from_array(arr) {
+  pick_from_array(arr) {
     if (!(arr instanceof Array))
       throw new Error("XOR128: parameter must be an array");
+
+    if (arr.length === 0) return null;
 
     return arr[this.random_int(0, arr.length)];
   }
@@ -280,9 +174,11 @@ class XOR128 {
    * @param {string} str a string
    * @returns {string} char from input string
    */
-  random_from_string(str) {
+  pick_from_string(str) {
     if (typeof str !== "string")
       throw new Error("XOR128: parameter must be a string");
+
+    if (str.length === 0) return null;
 
     return str.charAt(this.random_int(0, str.length));
   }
@@ -293,8 +189,8 @@ class XOR128 {
    * @returns {*} item from input array or char from input string
    */
   pick(x) {
-    if (x instanceof Array) return this.random_from_array(x);
-    else if (typeof x === "string") return this.random_from_string(x);
+    if (x instanceof Array) return this.pick_from_array(x);
+    else if (typeof x === "string") return this.pick_from_string(x);
     else throw new Error("XOR128: parameter must be an array or a string");
   }
 
@@ -304,7 +200,7 @@ class XOR128 {
    * @param {Array} arr an array
    */
   shuffle_array(arr) {
-    if (!arr) return null;
+    if (arr.length === 0) return null;
 
     return [...arr]
       .map((s) => ({ sort: this.random(), value: s }))
@@ -319,7 +215,7 @@ class XOR128 {
    * @returns {string}
    */
   shuffle_string(string) {
-    if (!string) return "";
+    if (string.length === 0) return "";
 
     return string
       .split("")
