@@ -4,7 +4,7 @@
 
 ![coverage](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Florossi.github.io%2Fjs-XOR128%2Fcoverage-badge.json&query=%24.message&label=coverage&color=%24.color)
 
-![version](https://img.shields.io/github/v/tag/lorossi/js-XOR128)
+![version](https://img.shields.io/github/v/release/lorossi/js-XOR128)
 
 ![license](https://img.shields.io/github/license/lorossi/js-XOR128)
 
