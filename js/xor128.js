@@ -159,9 +159,11 @@ class XOR128 {
    * @param {Array} arr an array
    * @returns {*} item from input array
    */
-  random_from_array(arr) {
+  pick_from_array(arr) {
     if (!(arr instanceof Array))
       throw new Error("XOR128: parameter must be an array");
+
+    if (arr.length === 0) return null;
 
     return arr[this.random_int(0, arr.length)];
   }
@@ -172,9 +174,11 @@ class XOR128 {
    * @param {string} str a string
    * @returns {string} char from input string
    */
-  random_from_string(str) {
+  pick_from_string(str) {
     if (typeof str !== "string")
       throw new Error("XOR128: parameter must be a string");
+
+    if (str.length === 0) return null;
 
     return str.charAt(this.random_int(0, str.length));
   }
@@ -185,8 +189,8 @@ class XOR128 {
    * @returns {*} item from input array or char from input string
    */
   pick(x) {
-    if (x instanceof Array) return this.random_from_array(x);
-    else if (typeof x === "string") return this.random_from_string(x);
+    if (x instanceof Array) return this.pick_from_array(x);
+    else if (typeof x === "string") return this.pick_from_string(x);
     else throw new Error("XOR128: parameter must be an array or a string");
   }
 
@@ -196,7 +200,7 @@ class XOR128 {
    * @param {Array} arr an array
    */
   shuffle_array(arr) {
-    if (!arr) return null;
+    if (arr.length === 0) return null;
 
     return [...arr]
       .map((s) => ({ sort: this.random(), value: s }))
@@ -211,7 +215,7 @@ class XOR128 {
    * @returns {string}
    */
   shuffle_string(string) {
-    if (!string) return "";
+    if (string.length === 0) return "";
 
     return string
       .split("")
