@@ -1,6 +1,6 @@
 {
   "name": "js-xor128",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "XOR128 pseudo-random number generator.\r Based on the implementation by [WizCorp](https://github.com/Wizcorp/xor128/).",
   "main": "xor128.js",
   "directories": {
