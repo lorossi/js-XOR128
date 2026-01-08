@@ -34,19 +34,15 @@ class XOR128 {
 
       // create a XOR128State from the seeds
       this._xor_state = new XOR128State(s1[0], s1[1], s2[0], s2[1]);
-
-      // check if the seed is all
-      // this might happen but it is not recommended
-      if (this._xor_state.isAllZero())
-        console.warn(
-          "XOR128: seed is all zero, this is not recommended. ",
-          "If no seed was passed, try instantiating the class again"
-        );
     } else throw new Error("XOR128: parameter must be a number or an array");
 
     // check if the seed is all zero
-    if (this._xor_state.isAllZero())
-      throw new Error("XOR128: seed must not be all zero");
+    if (this._xor_state.isAllZero()) {
+      console.warn(
+        "XOR128: seed is all zero. This is not recommended. Consider using a different seed. " +
+          "If no seed was provided, consider re-instantiating the generator."
+      );
+    }
   }
 
   /**

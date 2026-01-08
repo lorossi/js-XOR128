@@ -15,10 +15,12 @@ describe("instance test", function () {
     chai.expect(() => new XOR128([1, 2, 3, 4])).to.not.throw();
     chai.expect(() => new XOR128()).to.not.throw();
     chai.expect(() => new XOR128(42)).to.not.throw();
+
+    // test that all zeros will not throw an error but will show a warning
+    chai.expect(() => new XOR128([0, 0, 0, 0])).to.not.throw();
   });
 
   it("test invalid seeds", () => {
-    chai.expect(() => new XOR128([0, 0, 0, 0])).to.throw();
     chai.expect(() => new XOR128(false)).to.throw();
     chai.expect(() => new XOR128("A")).to.throw();
     chai.expect(() => new XOR128(-1)).to.throw();
