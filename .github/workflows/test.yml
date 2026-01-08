@@ -37,3 +37,9 @@ jobs:
           recreate: true
           path: code-coverage-results.md
 
+      - name: Upload coverage folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+
