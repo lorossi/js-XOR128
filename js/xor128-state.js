@@ -2,10 +2,10 @@ class XOR128State {
   /**
    * Internal state of the XOR128 pseudo-random number generator.
    * @private
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
-   * @param {number} w
+   * @param {number} x first word of the internal state
+   * @param {number} y second word of the internal state
+   * @param {number} z third word of the internal state
+   * @param {number} w fourth word of the internal state
    * @throws {Error} if any of x, y, z or w is not a number
    */
   constructor(x, y, z, w) {
@@ -21,7 +21,6 @@ class XOR128State {
 
   /**
    * Get the current internal state as an array of 4 numbers.
-   *
    * @returns {Array} current internal state
    */
   get state() {
@@ -30,7 +29,6 @@ class XOR128State {
 
   /**
    * Return true if the internal state is all zero, false otherwise.
-   *
    * @returns {boolean} true if the internal state is all zero, false otherwise
    */
   isAllZero() {
@@ -39,8 +37,6 @@ class XOR128State {
 
   /**
    * Rotate the internal state.
-   *
-   * @returns {void}
    */
   rotateState() {
     const [x, y, z, w] = this._state;
@@ -49,8 +45,7 @@ class XOR128State {
 
   /**
    * Set the first word of the internal state.
-   *
-   * @returns {void}
+   * @param {number} x new value for the first word
    * @throws {Error} if x is not a number
    */
   setFirstWord(x) {

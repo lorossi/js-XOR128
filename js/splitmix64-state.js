@@ -2,8 +2,7 @@ class SplitMix64State {
   /**
    * Internal state of the SplitMix64 pseudo-random number generator.
    * @private
-   * @param {number} seed
-   * @returns {void}
+   * @param {number} seed - initial seed
    * @throws {Error} if seed is not a number
    */
   constructor(seed) {
